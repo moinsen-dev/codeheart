@@ -1,0 +1,51 @@
+name: User Story
+description: Suggest a new feature or improvement
+title: "[Story]: "
+labels: ["enhancement", "user-story"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping us improve CodeHeart!
+  - type: dropdown
+    id: stakeholder-type
+    attributes:
+      label: As a...
+      description: Which type of user will benefit from this?
+      options:
+        - Donor
+        - Social Worker  
+        - Beneficiary
+        - Investor/Sponsor
+        - Partner Organization
+        - Developer
+    validations:
+      required: true
+  - type: textarea
+    id: user-story
+    attributes:
+      label: User Story
+      description: Complete the user story
+      placeholder: |
+        As a [stakeholder type]
+        I want to [action/feature]
+        So that [benefit/value]
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: Acceptance Criteria
+      description: How will we know when this is complete?
+      placeholder: |
+        - [ ] Criterion 1
+        - [ ] Criterion 2
+        - [ ] Criterion 3
+    validations:
+      required: true
+  - type: textarea
+    id: social-impact
+    attributes:
+      label: Social Impact
+      description: How will this help our mission?
+      placeholder: Describe the positive impact on homeless individuals or the donation process

@@ -1,0 +1,182 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "howItWorks": "How it works",
+    "donate": "Donate",
+    "joinWaitlist": "Join waitlist",
+    "login": "Login",
+    "register": "Register",
+    "logout": "Logout",
+    "dashboard": "Dashboard"
+  },
+  "hero": {
+    "title": "Donate with dignity, help directly",
+    "subtitle": "CodeHeart connects you safely and anonymously with people in need through our innovative codeword system",
+    "cta": {
+      "donate": "Donate now",
+      "learnMore": "Learn more"
+    }
+  },
+  "waitlist": {
+    "title": "Join the CodeHeart movement",
+    "subtitle": "Choose your role and help us revolutionize homeless assistance",
+    "roles": {
+      "donor": "Donor",
+      "investor": "Investor",
+      "sponsor": "Sponsor",
+      "patron": "Patron",
+      "coworker": "Co-worker",
+      "tester": "Tester",
+      "socialWorker": "Social Worker",
+      "beneficiary": "Beneficiary"
+    },
+    "form": {
+      "email": "Email address",
+      "role": "Your role",
+      "message": "Message (optional)",
+      "submit": "Join waitlist",
+      "success": "Thank you! You're now on our waitlist."
+    }
+  },
+  "features": {
+    "title": "Why CodeHeart?",
+    "dignity": {
+      "title": "Preserve dignity",
+      "description": "No direct interaction required. Donate later in peace, without social pressure."
+    },
+    "security": {
+      "title": "Safe & Anonymous",
+      "description": "Time-delayed payouts and encrypted data protect all participants."
+    },
+    "transparency": {
+      "title": "Transparent usage",
+      "description": "See exactly how your donation is used - for food, shelter, or medical care."
+    },
+    "verified": {
+      "title": "Verified recipients",
+      "description": "All recipients are registered and supported by professional social workers."
+    }
+  },
+  "stats": {
+    "efficiency": "89% of donations reach recipients directly",
+    "cities": "Coming soon to 5 German cities",
+    "partners": "10+ partner organizations"
+  },
+  "theme": {
+    "toggle": "Toggle theme",
+    "light": "Light",
+    "dark": "Dark"
+  },
+  "language": {
+    "toggle": "Change language",
+    "de": "Deutsch",
+    "en": "English"
+  },
+  "auth": {
+    "login": {
+      "title": "Login",
+      "subtitle": "Sign in to continue",
+      "email": "Email address",
+      "emailPlaceholder": "your@email.com",
+      "password": "Password",
+      "passwordPlaceholder": "Your password",
+      "submit": "Sign in",
+      "noAccount": "Don't have an account?",
+      "registerLink": "Register now",
+      "forgotPassword": "Forgot password?"
+    },
+    "register": {
+      "title": "Register",
+      "subtitle": "Create a new account",
+      "name": "Name",
+      "namePlaceholder": "Your name",
+      "email": "Email address",
+      "emailPlaceholder": "your@email.com",
+      "password": "Password",
+      "passwordPlaceholder": "At least 8 characters",
+      "confirmPassword": "Confirm password",
+      "confirmPasswordPlaceholder": "Repeat password",
+      "role": "Your role",
+      "submit": "Register",
+      "hasAccount": "Already have an account?",
+      "loginLink": "Sign in now",
+      "success": "Registration successful! You can now sign in."
+    },
+    "errors": {
+      "emailRequired": "Email is required",
+      "emailInvalid": "Invalid email address",
+      "passwordRequired": "Password is required",
+      "passwordTooShort": "Password must be at least 8 characters",
+      "passwordMismatch": "Passwords do not match",
+      "nameRequired": "Name is required",
+      "loginFailed": "Login failed. Please check your credentials."
+    }
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Welcome back",
+    "totalDonated": "Total donated",
+    "donationsCount": "Number of donations",
+    "recentDonations": "Recent donations",
+    "noDonations": "No donations yet",
+    "noDonationsDescription": "Find someone to help by searching for a codeword.",
+    "findBeneficiary": "Find beneficiary",
+    "viewAll": "View all",
+    "donatedTo": "Donated to",
+    "amount": "Amount",
+    "date": "Date",
+    "status": {
+      "pending": "Pending",
+      "completed": "Completed",
+      "failed": "Failed"
+    },
+    "quickActions": "Quick actions",
+    "searchCodeword": "Search codeword",
+    "browseBeneficiaries": "Browse beneficiaries"
+  },
+  "donate": {
+    "title": "Donate",
+    "searchTitle": "Enter codeword",
+    "searchSubtitle": "Enter the codeword you saw",
+    "searchPlaceholder": "e.g. Maria47",
+    "search": "Search",
+    "notFound": "No recipient found",
+    "notFoundDescription": "We couldn't find a recipient with this codeword. Please check the spelling.",
+    "tryAgain": "Try again",
+    "browseBeneficiaries": "Browse beneficiaries",
+    "donateTitle": "Donate to",
+    "amount": "Amount",
+    "amountPlaceholder": "Amount in Euro",
+    "message": "Message (optional)",
+    "messagePlaceholder": "Add an encouraging message...",
+    "submit": "Donate now",
+    "processing": "Processing...",
+    "success": "Donation successful!",
+    "successDescription": "Thank you for your donation. The recipient will be notified.",
+    "backToDashboard": "Back to dashboard",
+    "donateAgain": "Donate again",
+    "minAmount": "Minimum: €1",
+    "maxAmount": "Maximum: €500"
+  },
+  "beneficiaries": {
+    "title": "Beneficiaries",
+    "subtitle": "Find someone to help",
+    "searchPlaceholder": "Search by name or codeword...",
+    "filterByLocation": "Filter by location",
+    "filterByNeeds": "Filter by needs",
+    "allLocations": "All locations",
+    "allNeeds": "All needs",
+    "verified": "Verified",
+    "progress": "Progress",
+    "of": "of",
+    "needs": "Needs",
+    "viewProfile": "View profile",
+    "donate": "Donate",
+    "story": "Story",
+    "codeword": "Codeword",
+    "location": "Location",
+    "noResults": "No beneficiaries found",
+    "noResultsDescription": "Try adjusting your search criteria."
+  }
+}

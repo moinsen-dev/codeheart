@@ -1,0 +1,182 @@
+{
+  "nav": {
+    "home": "Startseite",
+    "about": "Über uns",
+    "howItWorks": "So funktioniert's",
+    "donate": "Spenden",
+    "joinWaitlist": "Warteliste beitreten",
+    "login": "Anmelden",
+    "register": "Registrieren",
+    "logout": "Abmelden",
+    "dashboard": "Dashboard"
+  },
+  "hero": {
+    "title": "Würdevoll spenden, direkt helfen",
+    "subtitle": "CodeHeart verbindet Sie sicher und anonym mit Menschen in Not durch unser innovatives Codewort-System",
+    "cta": {
+      "donate": "Jetzt spenden",
+      "learnMore": "Mehr erfahren"
+    }
+  },
+  "waitlist": {
+    "title": "Werden Sie Teil der CodeHeart-Bewegung",
+    "subtitle": "Wählen Sie Ihre Rolle und helfen Sie uns, die Obdachlosenhilfe zu revolutionieren",
+    "roles": {
+      "donor": "Spender",
+      "investor": "Investor",
+      "sponsor": "Sponsor",
+      "patron": "Förderer",
+      "coworker": "Mitarbeiter",
+      "tester": "Tester",
+      "socialWorker": "Sozialarbeiter",
+      "beneficiary": "Hilfsbedürftiger"
+    },
+    "form": {
+      "email": "E-Mail-Adresse",
+      "role": "Ihre Rolle",
+      "message": "Nachricht (optional)",
+      "submit": "Warteliste beitreten",
+      "success": "Vielen Dank! Sie sind jetzt auf unserer Warteliste."
+    }
+  },
+  "features": {
+    "title": "Warum CodeHeart?",
+    "dignity": {
+      "title": "Würde bewahren",
+      "description": "Keine direkte Interaktion erforderlich. Spenden Sie später in Ruhe, ohne sozialen Druck."
+    },
+    "security": {
+      "title": "Sicher & Anonym",
+      "description": "Zeitverzögerte Auszahlungen und verschlüsselte Daten schützen alle Beteiligten."
+    },
+    "transparency": {
+      "title": "Transparente Verwendung",
+      "description": "Sehen Sie genau, wie Ihre Spende verwendet wird - für Lebensmittel, Unterkunft oder medizinische Versorgung."
+    },
+    "verified": {
+      "title": "Verifizierte Empfänger",
+      "description": "Alle Empfänger werden von professionellen Sozialarbeitern registriert und betreut."
+    }
+  },
+  "stats": {
+    "efficiency": "89% der Spenden kommen direkt an",
+    "cities": "Bald in 5 deutschen Städten",
+    "partners": "10+ Partnerorganisationen"
+  },
+  "theme": {
+    "toggle": "Thema wechseln",
+    "light": "Hell",
+    "dark": "Dunkel"
+  },
+  "language": {
+    "toggle": "Sprache wechseln",
+    "de": "Deutsch",
+    "en": "English"
+  },
+  "auth": {
+    "login": {
+      "title": "Anmelden",
+      "subtitle": "Melden Sie sich an, um fortzufahren",
+      "email": "E-Mail-Adresse",
+      "emailPlaceholder": "ihre@email.de",
+      "password": "Passwort",
+      "passwordPlaceholder": "Ihr Passwort",
+      "submit": "Anmelden",
+      "noAccount": "Noch kein Konto?",
+      "registerLink": "Jetzt registrieren",
+      "forgotPassword": "Passwort vergessen?"
+    },
+    "register": {
+      "title": "Registrieren",
+      "subtitle": "Erstellen Sie ein neues Konto",
+      "name": "Name",
+      "namePlaceholder": "Ihr Name",
+      "email": "E-Mail-Adresse",
+      "emailPlaceholder": "ihre@email.de",
+      "password": "Passwort",
+      "passwordPlaceholder": "Mindestens 8 Zeichen",
+      "confirmPassword": "Passwort bestätigen",
+      "confirmPasswordPlaceholder": "Passwort wiederholen",
+      "role": "Ihre Rolle",
+      "submit": "Registrieren",
+      "hasAccount": "Bereits ein Konto?",
+      "loginLink": "Jetzt anmelden",
+      "success": "Registrierung erfolgreich! Sie können sich jetzt anmelden."
+    },
+    "errors": {
+      "emailRequired": "E-Mail ist erforderlich",
+      "emailInvalid": "Ungültige E-Mail-Adresse",
+      "passwordRequired": "Passwort ist erforderlich",
+      "passwordTooShort": "Passwort muss mindestens 8 Zeichen lang sein",
+      "passwordMismatch": "Passwörter stimmen nicht überein",
+      "nameRequired": "Name ist erforderlich",
+      "loginFailed": "Anmeldung fehlgeschlagen. Bitte überprüfen Sie Ihre Daten."
+    }
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Willkommen zurück",
+    "totalDonated": "Gesamt gespendet",
+    "donationsCount": "Anzahl Spenden",
+    "recentDonations": "Letzte Spenden",
+    "noDonations": "Noch keine Spenden",
+    "noDonationsDescription": "Finden Sie jemanden, dem Sie helfen möchten, indem Sie ein Codewort suchen.",
+    "findBeneficiary": "Empfänger finden",
+    "viewAll": "Alle anzeigen",
+    "donatedTo": "Gespendet an",
+    "amount": "Betrag",
+    "date": "Datum",
+    "status": {
+      "pending": "Ausstehend",
+      "completed": "Abgeschlossen",
+      "failed": "Fehlgeschlagen"
+    },
+    "quickActions": "Schnellaktionen",
+    "searchCodeword": "Codewort suchen",
+    "browseBeneficiaries": "Empfänger durchsuchen"
+  },
+  "donate": {
+    "title": "Spenden",
+    "searchTitle": "Codewort eingeben",
+    "searchSubtitle": "Geben Sie das Codewort ein, das Sie gesehen haben",
+    "searchPlaceholder": "z.B. Maria47",
+    "search": "Suchen",
+    "notFound": "Kein Empfänger gefunden",
+    "notFoundDescription": "Wir konnten keinen Empfänger mit diesem Codewort finden. Bitte überprüfen Sie die Schreibweise.",
+    "tryAgain": "Erneut versuchen",
+    "browseBeneficiaries": "Empfänger durchsuchen",
+    "donateTitle": "Spende an",
+    "amount": "Betrag",
+    "amountPlaceholder": "Betrag in Euro",
+    "message": "Nachricht (optional)",
+    "messagePlaceholder": "Eine aufmunternde Nachricht hinzufügen...",
+    "submit": "Jetzt spenden",
+    "processing": "Verarbeitung...",
+    "success": "Spende erfolgreich!",
+    "successDescription": "Vielen Dank für Ihre Spende. Der Empfänger wird benachrichtigt.",
+    "backToDashboard": "Zurück zum Dashboard",
+    "donateAgain": "Weitere Spende",
+    "minAmount": "Mindestbetrag: 1€",
+    "maxAmount": "Maximalbetrag: 500€"
+  },
+  "beneficiaries": {
+    "title": "Empfänger",
+    "subtitle": "Finden Sie jemanden, dem Sie helfen möchten",
+    "searchPlaceholder": "Nach Name oder Codewort suchen...",
+    "filterByLocation": "Nach Standort filtern",
+    "filterByNeeds": "Nach Bedürfnissen filtern",
+    "allLocations": "Alle Standorte",
+    "allNeeds": "Alle Bedürfnisse",
+    "verified": "Verifiziert",
+    "progress": "Fortschritt",
+    "of": "von",
+    "needs": "Bedürfnisse",
+    "viewProfile": "Profil ansehen",
+    "donate": "Spenden",
+    "story": "Geschichte",
+    "codeword": "Codewort",
+    "location": "Standort",
+    "noResults": "Keine Empfänger gefunden",
+    "noResultsDescription": "Versuchen Sie, Ihre Suchkriterien anzupassen."
+  }
+}
