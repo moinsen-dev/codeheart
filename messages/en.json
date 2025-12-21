@@ -29,7 +29,8 @@
       "coworker": "Co-worker",
       "tester": "Tester",
       "socialWorker": "Social Worker",
-      "beneficiary": "Beneficiary"
+      "beneficiary": "Beneficiary",
+      "admin": "Administrator"
     },
     "form": {
       "email": "Email address",

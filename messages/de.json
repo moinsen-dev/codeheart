@@ -29,7 +29,8 @@
       "coworker": "Mitarbeiter",
       "tester": "Tester",
       "socialWorker": "Sozialarbeiter",
-      "beneficiary": "Hilfsbedürftiger"
+      "beneficiary": "Hilfsbedürftiger",
+      "admin": "Administrator"
     },
     "form": {
       "email": "E-Mail-Adresse",
