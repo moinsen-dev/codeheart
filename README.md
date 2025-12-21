@@ -1,120 +1,126 @@
-# CodeHeart 💙
+# CodeHeart
 
-> Würdevoll spenden, direkt helfen / Donate with dignity, help directly
+> Dignified donations through a simple codeword system
 
-CodeHeart is a digital donation platform that connects donors with homeless individuals through an innovative codeword system, preserving dignity and ensuring safety for all participants.
+CodeHeart is a digital donation platform connecting donors with homeless individuals through unique codewords (e.g., "Maria47"). Donors can support specific individuals without direct interaction, preserving dignity for all.
 
-## 🌟 Vision
+## Current Status: Prototype
 
-We're revolutionizing homeless assistance by creating a secure, anonymous, and dignified way to help those in need. Our codeword system allows donors to support individuals without direct interaction, reducing social pressure and safety concerns.
+The prototype is fully functional with mock data, demonstrating the complete user experience.
 
-## 🚀 Current Status: Prototype Phase
+### What's Working
 
-We're building a fully-functional mock-up with fake data to demonstrate the concept to stakeholders, investors, and potential users. This prototype-first approach allows us to:
+- Landing page with features, stats, and waitlist
+- User registration and login (mock auth)
+- Donor dashboard with donation history
+- Codeword search and donation flow
+- Beneficiaries listing with filters (location, needs)
+- German/English translations
+- Light/Dark theme
+- 25 automated tests
 
-- Validate the user experience with all stakeholder types
-- Demonstrate the vision clearly
-- Gather feedback early
-- Build investor confidence
+## Tech Stack
 
-## 🛠️ Tech Stack
+| Layer     | Technology                    |
+| --------- | ----------------------------- |
+| Framework | Next.js 14                    |
+| Language  | TypeScript                    |
+| Styling   | Tailwind CSS, shadcn/ui       |
+| State     | Zustand + localStorage        |
+| i18n      | next-intl                     |
+| Testing   | Vitest, React Testing Library |
+| CI/CD     | GitHub Actions                |
 
-- **Frontend**: Next.js 14, TypeScript, Tailwind CSS, shadcn/ui
-- **State Management**: Zustand (for prototype)
-- **Internationalization**: next-intl (German & English)
-- **Theme**: Light/Dark mode support
-- **Future Backend**: Supabase, Stripe
-
-## 🏃‍♂️ Getting Started
+## Getting Started
 
 ```bash
-# Clone the repository
-git clone https://github.com/[your-org]/codeheart.git
-
-# Install dependencies
+# Clone
+git clone https://github.com/moinsen-dev/codeheart.git
 cd codeheart
+
+# Install
 npm install
 
-# Run the development server
+# Development
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) to see the prototype.
+Open http://localhost:3000
 
-## 🤝 Contributing
+## Available Scripts
 
-We welcome contributions from developers, designers, social workers, and anyone passionate about making a difference! Please see our [Contributing Guidelines](CONTRIBUTING.md).
+```bash
+npm run dev          # Start dev server
+npm run build        # Production build
+npm run test         # Run tests in watch mode
+npm run test:run     # Run tests once
+npm run lint         # ESLint
+npm run format       # Prettier
+```
 
-### Stakeholder Roles
+## Project Structure
 
-- **Donors**: Individuals who want to help
-- **Social Workers**: Verify and support beneficiaries
-- **Investors/Sponsors**: Provide funding and resources
-- **Partner Organizations**: Offer infrastructure and services
-- **Developers**: Build and improve the platform
-- **Testers**: Ensure quality and accessibility
+```
+src/
+├── app/[locale]/           # Pages with locale routing
+│   ├── page.tsx            # Landing page
+│   ├── login/              # Authentication
+│   ├── register/
+│   ├── dashboard/          # Donor dashboard
+│   ├── donate/             # Codeword search
+│   │   └── [codeword]/     # Donation form
+│   └── beneficiaries/      # Listing with filters
+├── components/
+│   ├── ui/                 # shadcn components
+│   └── __tests__/          # Component tests
+├── lib/
+│   └── stores/             # Zustand store
+└── i18n/                   # Locale configuration
+```
 
-## 📋 Roadmap
+## Roadmap
 
 ### Phase 1: Prototype (Current)
 
-- [x] Basic project setup
-- [x] Theme & language switching
-- [x] Landing page design
-- [ ] Mock authentication
-- [ ] Donor dashboard
-- [ ] Beneficiary profiles
+- [x] Landing page
+- [x] Theme and language switching
+- [x] Mock authentication
+- [x] Donor dashboard
+- [x] Codeword donation flow
+- [x] Beneficiaries listing
+- [x] Testing infrastructure
 - [ ] Social worker portal
+- [ ] Admin interface
 
 ### Phase 2: MVP
 
 - [ ] Supabase integration
 - [ ] Real authentication
-- [ ] Payment processing (Stripe)
+- [ ] Stripe payments
 - [ ] GDPR compliance
 - [ ] Security audit
 
 ### Phase 3: Launch
 
-- [ ] Partner onboarding
 - [ ] Pilot in Hamburg
-- [ ] Scale to 5 German cities
+- [ ] Partner onboarding
+- [ ] Expand to 5 German cities
 
-## 🔒 Security & Privacy
+## Contributing
 
-CodeHeart is designed with privacy-first principles:
+See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
-- No direct personal data exchange
-- Time-delayed payouts for safety
-- GDPR/DSGVO compliant
-- End-to-end encryption for sensitive data
+## Documentation
 
-## 📊 Impact Goals
+- [Product Requirements](docs/PRD.md)
+- [Database Architecture](docs/architecture/DATABASE_ARCHITECTURE.md)
+- [GDPR Compliance](docs/compliance/GDPR_DSGVO_COMPLIANCE.md)
+- [Development Plan](docs/setup/prototype_first_development_plan.md)
 
-- **89%** of donations reach beneficiaries directly
-- **<3 seconds** page load time
-- **5+ languages** supported
-- **100% GDPR** compliant
+## License
 
-## 🌍 Internationalization
-
-Currently supporting:
-
-- 🇩🇪 German (default)
-- 🇬🇧 English
-
-Planning to add more languages based on community needs.
-
-## 📝 License
-
-This project is open source and available under the [MIT License](LICENSE).
-
-## 💌 Contact
-
-- Website: [codeheart.org](#) (coming soon)
-- Email: [hello@codeheart.org](#)
-- Join our [Discord](#) community
+MIT
 
 ---
 
-Made with ❤️ for those in need
+Made with care for those in need
