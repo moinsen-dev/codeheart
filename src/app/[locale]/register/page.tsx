@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useTranslations } from 'next-intl'
-import { useRouter } from 'next/navigation'
+import { useRouter } from '@/i18n/routing'
 import { Heart } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -15,23 +15,26 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { Label } from '@radix-ui/react-label'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@radix-ui/react-select'
 import { useMockDataStore, type User } from '@/lib/stores/mock-data'
 import { Link } from '@/i18n/routing'
 
 type UserRole = User['role']
 
-const ROLES: UserRole[] = ['donor', 'socialWorker', 'investor', 'admin']
+// Only show donor, socialWorker, and admin for registration
+const ROLES: UserRole[] = ['donor', 'socialWorker', 'admin']
+
+// Role-to-route mapping
+const ROLE_ROUTES: Record<UserRole, string> = {
+  donor: '/dashboard',
+  socialWorker: '/social-worker',
+  admin: '/admin',
+  investor: '/dashboard', // Default to dashboard
+}
 
 export default function RegisterPage() {
   const t = useTranslations('auth.register')
   const tRoles = useTranslations('waitlist.roles')
+  const tRoleDescriptions = useTranslations('auth.register.roleDescriptions')
   const tErrors = useTranslations('auth.errors')
   const router = useRouter()
   const { login } = useMockDataStore()
@@ -80,7 +83,10 @@ export default function RegisterPage() {
 
     // Mock registration - in real app this would create user in backend
     login(email, role)
-    router.push('/dashboard')
+
+    // Redirect based on role
+    const route = ROLE_ROUTES[role]
+    router.push(route)
   }
 
   return (
@@ -122,21 +128,45 @@ export default function RegisterPage() {
                 disabled={isLoading}
               />
             </div>
-            <div className="space-y-2">
+            <div className="space-y-3">
               <Label htmlFor="role">{t('role')}</Label>
-              <select
-                id="role"
-                value={role}
-                onChange={(e) => setRole(e.target.value as UserRole)}
-                disabled={isLoading}
-                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-              >
+              <div className="space-y-2">
                 {ROLES.map((r) => (
-                  <option key={r} value={r}>
-                    {tRoles(r)}
-                  </option>
+                  <div
+                    key={r}
+                    className={`cursor-pointer rounded-md border p-3 transition-colors ${
+                      role === r
+                        ? 'border-primary bg-primary/5'
+                        : 'border-input hover:border-primary/50'
+                    }`}
+                    onClick={() => !isLoading && setRole(r)}
+                  >
+                    <div className="flex items-start gap-2">
+                      <input
+                        type="radio"
+                        id={`role-${r}`}
+                        name="role"
+                        value={r}
+                        checked={role === r}
+                        onChange={(e) => setRole(e.target.value as UserRole)}
+                        disabled={isLoading}
+                        className="mt-1"
+                      />
+                      <div className="flex-1">
+                        <label
+                          htmlFor={`role-${r}`}
+                          className="cursor-pointer font-medium"
+                        >
+                          {tRoles(r)}
+                        </label>
+                        <p className="text-sm text-muted-foreground">
+                          {tRoleDescriptions(r)}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
                 ))}
-              </select>
+              </div>
             </div>
             <div className="space-y-2">
               <Label htmlFor="password">{t('password')}</Label>

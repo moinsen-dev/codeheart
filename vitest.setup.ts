@@ -24,6 +24,18 @@ vi.mock('next/navigation', () => ({
   useSearchParams: () => new URLSearchParams(),
 }))
 
+// Mock @/i18n/routing
+vi.mock('@/i18n/routing', () => ({
+  Link: vi.fn(({ children }) => children),
+  useRouter: () => ({
+    push: vi.fn(),
+    replace: vi.fn(),
+    back: vi.fn(),
+  }),
+  usePathname: () => '/',
+  redirect: vi.fn(),
+}))
+
 // Mock next-themes
 vi.mock('next-themes', () => ({
   useTheme: () => ({

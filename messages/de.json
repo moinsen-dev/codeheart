@@ -85,7 +85,19 @@
       "submit": "Anmelden",
       "noAccount": "Noch kein Konto?",
       "registerLink": "Jetzt registrieren",
-      "forgotPassword": "Passwort vergessen?"
+      "forgotPassword": "Passwort vergessen?",
+      "devMode": {
+        "title": "Schnellanmeldung (Dev-Modus)",
+        "loginAs": "Anmelden als",
+        "donor": "Spender",
+        "socialWorker": "Sozialarbeiter",
+        "admin": "Administrator"
+      }
+    },
+    "devMode": {
+      "banner": "Entwicklungsmodus aktiv",
+      "quickLogin": "Schnellanmeldung",
+      "loginAs": "Anmelden als"
     },
     "register": {
       "title": "Registrieren",
@@ -99,6 +111,14 @@
       "confirmPassword": "Passwort bestätigen",
       "confirmPasswordPlaceholder": "Passwort wiederholen",
       "role": "Ihre Rolle",
+      "roleDescriptions": {
+        "donor": "Spenden Sie, um Menschen in Not zu helfen",
+        "socialWorker": "Verifizieren und unterstützen Sie Hilfsbedürftige vor Ort",
+        "admin": "Verwalten Sie Plattform-Operationen und Benutzer"
+      },
+      "roleDonor": "Als Spender unterstützen Sie Menschen in Not durch direkte Spenden über unser sicheres Codewort-System",
+      "roleSocialWorker": "Als Sozialarbeiter verifizieren und betreuen Sie Hilfsbedürftige vor Ort und stellen deren Authentizität sicher",
+      "roleAdmin": "Als Administrator verwalten Sie die gesamte Plattform, einschließlich Benutzer, Einstellungen und Systemoperationen",
       "submit": "Registrieren",
       "hasAccount": "Bereits ein Konto?",
       "loginLink": "Jetzt anmelden",
@@ -179,5 +199,20 @@
     "location": "Standort",
     "noResults": "Keine Empfänger gefunden",
     "noResultsDescription": "Versuchen Sie, Ihre Suchkriterien anzupassen."
+  },
+  "socialWorker": {
+    "dashboard": "Dashboard",
+    "title": "Sozialarbeiter-Dashboard",
+    "manageBeneficiaries": "Empfänger verwalten"
+  },
+  "admin": {
+    "dashboard": "Admin-Panel",
+    "title": "Administrator-Dashboard",
+    "manageUsers": "Benutzer verwalten",
+    "settings": "Einstellungen"
+  },
+  "authGuard": {
+    "loading": "Wird geladen...",
+    "unauthorized": "Nicht autorisiert. Sie haben keine Berechtigung, auf diese Seite zuzugreifen."
   }
 }

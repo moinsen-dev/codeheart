@@ -1,8 +1,9 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { useTranslations } from 'next-intl'
-import { useRouter } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
+import { useRouter as useI18nRouter } from '@/i18n/routing'
 import { Heart } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -15,19 +16,63 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { Label } from '@radix-ui/react-label'
-import { useMockDataStore } from '@/lib/stores/mock-data'
+import { useMockDataStore, type User } from '@/lib/stores/mock-data'
 import { Link } from '@/i18n/routing'
+import { devLogin, isDevAuthEnabled } from '@/lib/auth/dev-auth'
 
-export default function LoginPage() {
+// Role-to-route mapping
+const ROLE_ROUTES: Record<User['role'], string> = {
+  donor: '/dashboard',
+  socialWorker: '/social-worker',
+  admin: '/admin',
+  investor: '/dashboard', // Default to dashboard for now
+}
+
+// Component that handles auto-login from URL params
+function AutoLoginHandler() {
+  const searchParams = useSearchParams()
+  const i18nRouter = useI18nRouter()
+  const { currentUser } = useMockDataStore()
+  const devAuthEnabled = isDevAuthEnabled()
+
+  useEffect(() => {
+    if (devAuthEnabled && !currentUser) {
+      const devParam = searchParams.get('dev')
+      if (
+        devParam === 'donor' ||
+        devParam === 'socialWorker' ||
+        devParam === 'admin'
+      ) {
+        devLogin(devParam)
+        const route = ROLE_ROUTES[devParam]
+        i18nRouter.push(route)
+      }
+    }
+  }, [devAuthEnabled, searchParams, currentUser, i18nRouter])
+
+  return null
+}
+
+function LoginForm() {
   const t = useTranslations('auth.login')
   const tErrors = useTranslations('auth.errors')
-  const router = useRouter()
+  const tDevMode = useTranslations('auth.login.devMode')
+  const i18nRouter = useI18nRouter()
   const { login } = useMockDataStore()
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+
+  const devAuthEnabled = isDevAuthEnabled()
+
+  const handleQuickLogin = (role: 'donor' | 'socialWorker' | 'admin') => {
+    setIsLoading(true)
+    devLogin(role)
+    const route = ROLE_ROUTES[role]
+    i18nRouter.push(route)
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -49,8 +94,13 @@ export default function LoginPage() {
     await new Promise((resolve) => setTimeout(resolve, 1000))
 
     // Mock login - in real app this would validate against backend
-    login(email, 'donor')
-    router.push('/dashboard')
+    // For now, we'll default to donor role, but this should come from backend
+    const role: User['role'] = 'donor'
+    login(email, role)
+
+    // Redirect based on role
+    const route = ROLE_ROUTES[role]
+    i18nRouter.push(route)
   }
 
   return (
@@ -105,6 +155,55 @@ export default function LoginPage() {
             <Button type="submit" className="w-full" disabled={isLoading}>
               {isLoading ? '...' : t('submit')}
             </Button>
+
+            {devAuthEnabled && (
+              <>
+                <div className="relative w-full">
+                  <div className="absolute inset-0 flex items-center">
+                    <div className="w-full border-t border-muted-foreground/20"></div>
+                  </div>
+                  <div className="relative flex justify-center text-xs uppercase">
+                    <span className="bg-card px-2 text-muted-foreground">
+                      {tDevMode('title')}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-3 gap-2">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => handleQuickLogin('donor')}
+                    disabled={isLoading}
+                    className="text-xs"
+                  >
+                    {tDevMode('donor')}
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => handleQuickLogin('socialWorker')}
+                    disabled={isLoading}
+                    className="text-xs"
+                  >
+                    {tDevMode('socialWorker')}
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => handleQuickLogin('admin')}
+                    disabled={isLoading}
+                    className="text-xs"
+                  >
+                    {tDevMode('admin')}
+                  </Button>
+                </div>
+              </>
+            )}
+
             <p className="text-center text-sm text-muted-foreground">
               {t('noAccount')}{' '}
               <Link href="/register" className="text-primary hover:underline">
@@ -115,5 +214,16 @@ export default function LoginPage() {
         </form>
       </Card>
     </div>
+  )
+}
+
+export default function LoginPage() {
+  return (
+    <>
+      <Suspense fallback={null}>
+        <AutoLoginHandler />
+      </Suspense>
+      <LoginForm />
+    </>
   )
 }
