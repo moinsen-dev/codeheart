@@ -3,6 +3,7 @@ import { getMessages, setRequestLocale } from 'next-intl/server'
 import { notFound } from 'next/navigation'
 import { routing } from '@/i18n/routing'
 import { ThemeProvider } from '@/components/theme-provider'
+import { DevModeBanner } from '@/lib/auth/dev-auth'
 import '../globals.css'
 
 export function generateStaticParams() {
@@ -39,6 +40,7 @@ export default async function LocaleLayout({
           enableSystem
           disableTransitionOnChange
         >
+          <DevModeBanner />
           <NextIntlClientProvider messages={messages}>
             {children}
           </NextIntlClientProvider>
