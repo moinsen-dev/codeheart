@@ -85,7 +85,14 @@
       "submit": "Anmelden",
       "noAccount": "Noch kein Konto?",
       "registerLink": "Jetzt registrieren",
-      "forgotPassword": "Passwort vergessen?"
+      "forgotPassword": "Passwort vergessen?",
+      "devMode": {
+        "title": "Schnellanmeldung (Dev-Modus)",
+        "loginAs": "Anmelden als",
+        "donor": "Spender",
+        "socialWorker": "Sozialarbeiter",
+        "admin": "Administrator"
+      }
     },
     "register": {
       "title": "Registrieren",
@@ -99,6 +106,11 @@
       "confirmPassword": "Passwort bestätigen",
       "confirmPasswordPlaceholder": "Passwort wiederholen",
       "role": "Ihre Rolle",
+      "roleDescriptions": {
+        "donor": "Spenden Sie, um Menschen in Not zu helfen",
+        "socialWorker": "Verifizieren und unterstützen Sie Hilfsbedürftige vor Ort",
+        "admin": "Verwalten Sie Plattform-Operationen und Benutzer"
+      },
       "submit": "Registrieren",
       "hasAccount": "Bereits ein Konto?",
       "loginLink": "Jetzt anmelden",

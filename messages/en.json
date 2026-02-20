@@ -85,7 +85,14 @@
       "submit": "Sign in",
       "noAccount": "Don't have an account?",
       "registerLink": "Register now",
-      "forgotPassword": "Forgot password?"
+      "forgotPassword": "Forgot password?",
+      "devMode": {
+        "title": "Quick Login (Dev Mode)",
+        "loginAs": "Login as",
+        "donor": "Donor",
+        "socialWorker": "Social Worker",
+        "admin": "Admin"
+      }
     },
     "register": {
       "title": "Register",
@@ -99,6 +106,11 @@
       "confirmPassword": "Confirm password",
       "confirmPasswordPlaceholder": "Repeat password",
       "role": "Your role",
+      "roleDescriptions": {
+        "donor": "Make donations to help people in need",
+        "socialWorker": "Verify and support beneficiaries in the field",
+        "admin": "Manage platform operations and users"
+      },
       "submit": "Register",
       "hasAccount": "Already have an account?",
       "loginLink": "Sign in now",
