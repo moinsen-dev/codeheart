@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useMemo } from 'react'
 import { useTranslations } from 'next-intl'
+import Image from 'next/image'
 import { Search, MapPin, CheckCircle, Heart, Filter } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -171,9 +172,11 @@ export default function BeneficiariesPage() {
                 <Card key={beneficiary.id} className="overflow-hidden">
                   <CardHeader className="p-0">
                     <div className="relative">
-                      <img
+                      <Image
                         src={beneficiary.photoUrl}
                         alt={beneficiary.name}
+                        width={400}
+                        height={128}
                         className="h-32 w-full bg-muted object-cover"
                       />
                       {beneficiary.verified && (

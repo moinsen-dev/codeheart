@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { useTranslations } from 'next-intl'
 import { useRouter, useParams } from 'next/navigation'
+import Image from 'next/image'
 import {
   Heart,
   MapPin,
@@ -171,9 +172,11 @@ export default function DonateToCodewordClient() {
           <Card>
             <CardHeader>
               <div className="flex items-start gap-4">
-                <img
+                <Image
                   src={beneficiary.photoUrl}
                   alt={beneficiary.name}
+                  width={80}
+                  height={80}
                   className="h-20 w-20 rounded-full bg-muted"
                 />
                 <div className="flex-1">
