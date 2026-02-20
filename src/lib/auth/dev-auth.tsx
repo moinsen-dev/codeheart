@@ -4,14 +4,13 @@ import { useMockDataStore } from '@/lib/stores/mock-data'
 
 /**
  * Check if development authentication mode is enabled
- * @returns true if NEXT_PUBLIC_DEV_AUTH environment variable is set to 'true'
  */
 export function isDevAuthEnabled(): boolean {
   return process.env.NEXT_PUBLIC_DEV_AUTH === 'true'
 }
 
 /**
- * Development user configurations for each role
+ * Pre-configured development users for each role
  */
 const DEV_USERS = {
   donor: {
@@ -32,82 +31,76 @@ const DEV_USERS = {
 }
 
 /**
- * Login as a development user with the specified role
- * @param role - The role to login as ('donor', 'socialWorker', or 'admin')
+ * Quick login function for development mode
+ * Logs in with a pre-configured user based on role
  */
 export function devLogin(role: 'donor' | 'socialWorker' | 'admin'): void {
   if (!isDevAuthEnabled()) {
-    console.warn(
-      'Dev auth is not enabled. Set NEXT_PUBLIC_DEV_AUTH=true to use dev login.'
-    )
+    console.warn('Dev auth is not enabled. Set NEXT_PUBLIC_DEV_AUTH=true')
     return
   }
 
   const user = DEV_USERS[role]
-  const login = useMockDataStore.getState().login
-
+  const { login } = useMockDataStore.getState()
   login(user.email, user.role)
-  console.log(`Dev login successful: ${user.name} (${user.email})`)
+
+  console.log(`Dev login successful: ${user.email} (${user.role})`)
 }
 
 /**
- * Development mode banner component
- * Displays a fixed banner at the top of the screen when dev auth is enabled
+ * Development Mode Banner Component
+ * Shows a visible banner when dev auth is enabled with login/logout controls
  */
-export function DevModeBanner(): JSX.Element | null {
+export function DevModeBanner() {
   const currentUser = useMockDataStore((state) => state.currentUser)
-  const isEnabled = isDevAuthEnabled()
+  const logout = useMockDataStore((state) => state.logout)
 
-  if (!isEnabled) {
+  if (!isDevAuthEnabled()) {
     return null
   }
 
   return (
-    <div className="fixed left-0 right-0 top-0 z-50 bg-gradient-to-r from-yellow-400 to-orange-400 px-4 py-2 text-black shadow-lg">
-      <div className="container mx-auto flex items-center justify-between text-sm font-medium">
-        <div className="flex items-center gap-2">
-          <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-black text-xs font-bold text-yellow-400">
-            !
-          </span>
-          <span className="font-bold">Dev Mode Active</span>
-          {currentUser && (
-            <span className="hidden text-black/80 sm:inline">
-              | Logged in as: {currentUser.name} ({currentUser.role})
+    <div className="fixed left-0 right-0 top-0 z-50 bg-gradient-to-r from-yellow-400 to-orange-400 px-4 py-2 text-center font-semibold text-black shadow-lg">
+      <div className="flex items-center justify-center gap-3">
+        <span className="flex h-6 w-6 items-center justify-center rounded-full bg-black text-sm text-yellow-400">
+          !
+        </span>
+        <span>Dev Mode Active</span>
+
+        {currentUser ? (
+          <div className="ml-4 flex items-center gap-2">
+            <span className="text-sm">
+              Logged in as: <strong>{currentUser.role}</strong>
             </span>
-          )}
-        </div>
-        <div className="flex items-center gap-3">
-          {!currentUser && (
-            <>
-              <button
-                onClick={() => devLogin('donor')}
-                className="rounded bg-black px-3 py-1 text-xs text-yellow-400 transition-colors hover:bg-gray-800"
-              >
-                Login as Donor
-              </button>
-              <button
-                onClick={() => devLogin('socialWorker')}
-                className="hidden rounded bg-black px-3 py-1 text-xs text-yellow-400 transition-colors hover:bg-gray-800 sm:inline-block"
-              >
-                Login as Social Worker
-              </button>
-              <button
-                onClick={() => devLogin('admin')}
-                className="hidden rounded bg-black px-3 py-1 text-xs text-yellow-400 transition-colors hover:bg-gray-800 sm:inline-block"
-              >
-                Login as Admin
-              </button>
-            </>
-          )}
-          {currentUser && (
             <button
-              onClick={() => useMockDataStore.getState().logout()}
-              className="rounded bg-black px-3 py-1 text-xs text-yellow-400 transition-colors hover:bg-gray-800"
+              onClick={logout}
+              className="rounded bg-black px-3 py-1 text-sm text-yellow-400 transition-colors hover:bg-gray-800"
             >
               Logout
             </button>
-          )}
-        </div>
+          </div>
+        ) : (
+          <div className="ml-4 flex items-center gap-2">
+            <button
+              onClick={() => devLogin('donor')}
+              className="rounded bg-black px-3 py-1 text-sm text-yellow-400 transition-colors hover:bg-gray-800"
+            >
+              Login as Donor
+            </button>
+            <button
+              onClick={() => devLogin('socialWorker')}
+              className="rounded bg-black px-3 py-1 text-sm text-yellow-400 transition-colors hover:bg-gray-800"
+            >
+              Login as Social Worker
+            </button>
+            <button
+              onClick={() => devLogin('admin')}
+              className="rounded bg-black px-3 py-1 text-sm text-yellow-400 transition-colors hover:bg-gray-800"
+            >
+              Login as Admin
+            </button>
+          </div>
+        )}
       </div>
     </div>
   )
