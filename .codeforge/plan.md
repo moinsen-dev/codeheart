@@ -1,83 +1,185 @@
-# CodeForge Plan: Implement Auth Flow with Protected Routes, Role Guards & Dev Auth (GitHub Issue #5). Requirements: 1) Dev Auth System (src/lib/auth/dev-auth.ts): When NEXT_PUBLIC_DEV_AUTH=true, enable URL-based login via /login?dev=donor, /login?dev=socialWorker, /login?dev=admin. Add programmatic devLogin(role) for tests. Show visual Dev Mode banner when active. 2) AuthGuard Component (src/components/auth-guard.tsx): Wraps protected pages, redirects to /login if not logged in, redirects to own dashboard if wrong role, loading state. 3) Login Page: Role-specific redirects after login (donor→/dashboard, socialWorker→/social-worker, admin→/admin). In dev mode show Quick-Login buttons per role. Error messages. 4) Register Page: Role selection with descriptions, validation, success redirect. 5) Navbar update: Show role-appropriate navigation. 6) i18n: New keys in messages/de.json and messages/en.json for socialWorker and admin sections. 7) At least 10 new tests. All existing 25 tests must still pass. Follow CLAUDE.md patterns. Use @/i18n/routing for navigation.
+# CodeForge Plan: Build the Social Worker Dashboard & Beneficiary Management (GitHub Issue #1). The app already has: Dev Auth (login via /login?dev=socialWorker when NEXT_PUBLIC_DEV_AUTH=true), AuthGuard component, role-based navbar, Zustand store with Beneficiary model. Requirements: 1) STORE: Add getMyBeneficiaries(socialWorkerId), addBeneficiary(data) with auto-generated codeword, updateBeneficiary(id, data), removeBeneficiary(id) as soft-delete to src/lib/stores/mock-data.ts. 2) SOCIAL WORKER DASHBOARD (/[locale]/social-worker/page.tsx): Overview cards (active beneficiaries count, total donations, open needs), quick-action buttons, protected by AuthGuard with role=socialWorker. The page already exists as placeholder — replace with full dashboard. 3) BENEFICIARY LIST (/[locale]/social-worker/beneficiaries/page.tsx): Table of own beneficiaries with filters (location, verified, needs), inline status (codeword, funds, target). 4) ADD/EDIT FORM (/[locale]/social-worker/beneficiaries/[id]/page.tsx): Form with name, story, needs multi-select, location, target amount. Codeword auto-generated on add. Validation. 5) i18n: Add socialWorker keys to messages/de.json and messages/en.json. 6) TESTS: At least 10 new tests. All existing 155 tests must pass. Use existing patterns: shadcn/ui, next-intl, Zustand, CLAUDE.md conventions. Use @/i18n/routing for navigation.
 
-Task ID: `cf-20260220-080428-f70f`
-Created: 2026-02-20T08:06:25.182006+00:00
+Task ID: `cf-20260220-122041-69b2`
+Created: 2026-02-20T12:22:51.973449+00:00
 
-## Packages (5)
+## Packages (6)
 
-### 1. dev-auth-system
+### 1. store-actions
 
-Create the dev auth system at src/lib/auth/dev-auth.ts. This module should: (1) Export a function `isDevAuthEnabled()` that checks if `process.env.NEXT_PUBLIC_DEV_AUTH === 'true'`. (2) Export a `devLogin(role: 'donor' | 'socialWorker' | 'admin')` function that calls the Zustand store's `login()` with a pre-configured email/name for each role (e.g., 'dev-donor@codeheart.dev'). (3) Export a `DevModeBanner` React component that renders a fixed banner (e.g., top of screen, yellow/orange background) showing 'Dev Mode Active' when dev auth is enabled - this should be added to the locale layout at src/app/[locale]/layout.tsx. (4) Add `NEXT_PUBLIC_DEV_AUTH` to .env.example with a comment. (5) Update .env.local or create it with NEXT_PUBLIC_DEV_AUTH=true for local development.
+Add social worker store actions to src/lib/stores/mock-data.ts. Implement four new actions on the Zustand store:
 
-**Success Criteria:**
+1. `getMyBeneficiaries(socialWorkerId: string)`: Returns filtered array of beneficiaries where `beneficiary.socialWorkerId === socialWorkerId` and beneficiary is not soft-deleted (add `deletedAt?: Date` field to Beneficiary interface).
 
-- File src/lib/auth/dev-auth.ts exists with isDevAuthEnabled(), devLogin(role), and DevModeBanner exports
-- DevModeBanner renders a visible banner when NEXT_PUBLIC_DEV_AUTH=true and is hidden otherwise
-- devLogin('donor') logs in as a donor user via the Zustand store
-- devLogin('socialWorker') logs in as a social worker user
-- devLogin('admin') logs in as an admin user
-- NEXT_PUBLIC_DEV_AUTH is documented in .env.example
-- DevModeBanner is rendered in src/app/[locale]/layout.tsx
-- npm run build completes without errors
+2. `addBeneficiary(data: Omit<Beneficiary, 'id' | 'codeword' | 'createdAt' | 'currentFunds' | 'photoUrl' | 'deletedAt'>)`: Creates a new beneficiary with auto-generated UUID id, auto-generated codeword (use faker to generate a unique codeword like existing pattern in generateMockData), currentFunds=0, photoUrl from dicebear, createdAt=new Date(), and adds to store.
 
-### 2. auth-guard-component
+3. `updateBeneficiary(id: string, data: Partial<Pick<Beneficiary, 'name' | 'story' | 'needs' | 'location' | 'targetFunds' | 'verified'>>)`: Updates the matching beneficiary's fields in the store.
 
-Create src/components/auth-guard.tsx - a reusable wrapper component for protected pages. Props: `children: React.ReactNode`, `allowedRoles: Array<'donor' | 'socialWorker' | 'investor' | 'admin'>`. Behavior: (1) Uses `useMockDataStore()` to check `currentUser`. (2) If no currentUser, redirect to `/{locale}/login` using `useRouter` from `@/i18n/routing`. (3) If currentUser exists but their role is not in `allowedRoles`, redirect to their role-appropriate dashboard: donor→/dashboard, socialWorker→/social-worker, admin→/admin. (4) While checking auth state (before store hydration), show a loading spinner/skeleton. (5) If authorized, render children. Also create placeholder pages for social worker and admin dashboards: src/app/[locale]/social-worker/page.tsx (simple page with title 'Social Worker Dashboard') and src/app/[locale]/admin/page.tsx (simple page with title 'Admin Dashboard'). Wrap all three dashboard pages (dashboard, social-worker, admin) with AuthGuard using appropriate allowedRoles.
+4. `removeBeneficiary(id: string)`: Soft-delete by setting `deletedAt: new Date()` on the beneficiary. Do NOT remove from array.
+
+Also add the `deletedAt?: Date` optional field to the `Beneficiary` interface. Update `getMyBeneficiaries` and `getBeneficiaryByCodeword` to exclude soft-deleted records. Update existing `generateMockData` to ensure generated beneficiaries have no `deletedAt` field.
 
 **Success Criteria:**
 
-- File src/components/auth-guard.tsx exists with AuthGuard component
-- AuthGuard redirects unauthenticated users to /login
-- AuthGuard redirects users with wrong role to their own dashboard
-- AuthGuard shows loading state during hydration
-- AuthGuard renders children when user is authorized
-- src/app/[locale]/social-worker/page.tsx exists and is wrapped with AuthGuard allowedRoles=['socialWorker']
-- src/app/[locale]/admin/page.tsx exists and is wrapped with AuthGuard allowedRoles=['admin']
-- src/app/[locale]/dashboard/page.tsx is wrapped with AuthGuard allowedRoles=['donor']
-- All imports use @/i18n/routing for navigation, not next/navigation
-- npm run build completes without errors
+- Beneficiary interface has optional deletedAt field
+- getMyBeneficiaries action exists and filters by socialWorkerId, excluding soft-deleted
+- addBeneficiary action creates beneficiary with auto-generated codeword and id
+- updateBeneficiary action updates specified fields
+- removeBeneficiary action sets deletedAt timestamp (soft delete)
+- getBeneficiaryByCodeword excludes soft-deleted beneficiaries
+- Existing tests still pass (run npm run test:run)
 
-### 3. login-register-pages
+### 2. i18n-messages
 
-Update the login page at src/app/[locale]/login/page.tsx: (1) Add dev mode support - when NEXT_PUBLIC_DEV_AUTH=true, check URL for `?dev=donor|socialWorker|admin` query param and auto-login via devLogin(). (2) Show Quick-Login buttons (one per role: Donor, Social Worker, Admin) when dev auth is enabled, each calling devLogin(role) and redirecting. (3) Implement role-specific redirects after successful login: donor→/dashboard, socialWorker→/social-worker, admin→/admin. (4) Improve error message display using i18n keys. Update the register page at src/app/[locale]/register/page.tsx: (1) Add role selection with descriptions explaining each role (donor, socialWorker, admin). (2) After successful registration, redirect to the role-appropriate dashboard (same mapping as login). (3) Add validation feedback. Both pages must use useRouter from @/i18n/routing.
+Add comprehensive socialWorker i18n keys to both messages/de.json and messages/en.json. Add keys under the existing `socialWorker` namespace. Required keys:
 
-**Success Criteria:**
+**Dashboard keys:** `socialWorker.welcome`, `socialWorker.activeBeneficiaries`, `socialWorker.totalDonations`, `socialWorker.openNeeds`, `socialWorker.quickActions`, `socialWorker.addBeneficiary`, `socialWorker.viewBeneficiaries`, `socialWorker.overview`
 
-- Login page auto-logs in when ?dev=donor query param is present and dev auth is enabled
-- Login page shows Quick-Login buttons for donor, socialWorker, admin when dev auth is enabled
-- Quick-Login buttons are NOT shown when dev auth is disabled
-- Login redirects donor to /dashboard, socialWorker to /social-worker, admin to /admin
-- Register page shows role descriptions for each selectable role
-- Register page redirects to role-appropriate dashboard after success
-- Both pages use useRouter from @/i18n/routing
-- Error messages use i18n translation keys
-- npm run build completes without errors
+**Beneficiary list keys:** `socialWorker.beneficiaryList`, `socialWorker.filterByLocation`, `socialWorker.filterByStatus`, `socialWorker.filterByNeeds`, `socialWorker.allLocations`, `socialWorker.allStatuses`, `socialWorker.verified`, `socialWorker.unverified`, `socialWorker.codeword`, `socialWorker.funds`, `socialWorker.target`, `socialWorker.noBeneficiaries`, `socialWorker.edit`, `socialWorker.remove`, `socialWorker.confirmRemove`, `socialWorker.search`
 
-### 4. navbar-and-i18n
+**Add/Edit form keys:** `socialWorker.addNew`, `socialWorker.editBeneficiary`, `socialWorker.name`, `socialWorker.story`, `socialWorker.needs`, `socialWorker.location`, `socialWorker.targetAmount`, `socialWorker.save`, `socialWorker.cancel`, `socialWorker.codewordGenerated`, `socialWorker.formValidation`, `socialWorker.nameRequired`, `socialWorker.storyRequired`, `socialWorker.locationRequired`, `socialWorker.needsRequired`, `socialWorker.targetRequired`, `socialWorker.beneficiarySaved`, `socialWorker.beneficiaryRemoved`
 
-Update src/components/navbar.tsx: (1) Show role-appropriate navigation links based on currentUser.role - donor sees 'Dashboard' linking to /dashboard, socialWorker sees 'Dashboard' linking to /social-worker, admin sees 'Admin Panel' linking to /admin. (2) Fix the import to use useRouter from @/i18n/routing instead of next/navigation (currently inconsistent). (3) Show role badge next to username when logged in. Update i18n message files messages/de.json and messages/en.json: (1) Add 'socialWorker' section with keys: dashboard, title, manageBeneficiaries. (2) Add 'admin' section with keys: dashboard, title, manageUsers, settings. (3) Add 'auth.devMode' section with keys: banner, quickLogin, loginAs. (4) Add 'authGuard' section with keys: loading, unauthorized. (5) Add role description keys under auth.register: roleDonor, roleSocialWorker, roleAdmin with description text.
+Provide proper German translations in de.json and English translations in en.json. Keep existing keys intact.
 
 **Success Criteria:**
 
-- Navbar shows role-specific dashboard link based on currentUser.role
-- Navbar uses useRouter from @/i18n/routing, not next/navigation
-- Navbar shows role badge when user is logged in
-- messages/de.json has socialWorker, admin, auth.devMode, and authGuard sections
-- messages/en.json has socialWorker, admin, auth.devMode, and authGuard sections
-- messages/de.json has role description keys under auth.register
-- messages/en.json has role description keys under auth.register
-- npm run build completes without errors
+- messages/de.json has all new socialWorker keys with German translations
+- messages/en.json has all new socialWorker keys with English translations
+- Existing keys in both files are unchanged
+- JSON is valid and properly formatted
+- npm run build succeeds
 
-### 5. tests
+### 3. social-worker-dashboard
 
-Write at least 10 new tests covering the auth flow implementation. Tests should be placed in appropriate **tests** directories. Required tests: (1) src/lib/auth/**tests**/dev-auth.test.ts: test isDevAuthEnabled() returns true/false based on env var, test devLogin() for each role creates correct user in store. (2) src/components/**tests**/auth-guard.test.tsx: test redirects to /login when no user, test redirects to correct dashboard when wrong role, test renders children when authorized, test shows loading state initially. (3) src/app/[locale]/login/**tests**/login.test.tsx OR src/components/**tests**/login.test.tsx: test Quick-Login buttons appear when dev auth enabled, test Quick-Login buttons hidden when dev auth disabled, test role-specific redirect after login. Update vitest.setup.ts if needed to mock new dependencies (e.g., add useSearchParams mock if not present). Ensure all 25 existing tests still pass alongside the new tests. Run `npx vitest run` to verify.
+Replace the existing placeholder at src/app/[locale]/social-worker/page.tsx with a full social worker dashboard. The page must:
+
+1. Be wrapped in `<AuthGuard allowedRoles={['socialWorker']}>` (already is).
+2. Include Navbar at top.
+3. Show a welcome message using currentUser name.
+4. Display 3 overview stat cards using data from the store:
+   - Active Beneficiaries count: count of getMyBeneficiaries(currentUser.id) results
+   - Total Donations: sum of donations where beneficiaryId matches one of the social worker's beneficiaries
+   - Open Needs: count of distinct unmet needs across the social worker's beneficiaries
+5. Quick-action buttons:
+   - 'Add Beneficiary' → links to `/social-worker/beneficiaries/new`
+   - 'View Beneficiaries' → links to `/social-worker/beneficiaries`
+6. Use Card, Button, Badge components from shadcn/ui.
+7. Use lucide-react icons (Users, Heart, AlertCircle, Plus, List).
+8. Use `useTranslations('socialWorker')` for all text.
+9. Import Link from `@/i18n/routing`.
+10. Be responsive (mobile-first) and support light/dark themes.
+11. Call `generateMockData()` if beneficiaries array is empty (same pattern as beneficiaries browse page).
 
 **Success Criteria:**
 
-- At least 10 new test cases are written
-- Tests cover dev-auth utilities (isDevAuthEnabled, devLogin)
-- Tests cover AuthGuard redirect behavior (no user, wrong role, authorized)
-- Tests cover login page dev mode features
-- All new tests pass when running npx vitest run
-- All 25 existing tests still pass
-- Total test count is at least 35
+- Page is protected by AuthGuard with socialWorker role
+- 3 stat cards display real computed data from store
+- Quick action buttons link to correct routes using i18n Link
+- All visible text uses useTranslations
+- Page is responsive and works in light/dark mode
+- Page renders without errors
+
+### 4. beneficiary-list-page
+
+Create src/app/[locale]/social-worker/beneficiaries/page.tsx — a table/list view of the social worker's beneficiaries.
+
+1. Wrap in `<AuthGuard allowedRoles={['socialWorker']}`.
+2. Include Navbar.
+3. Fetch beneficiaries using `getMyBeneficiaries(currentUser.id)` from store.
+4. Display as a responsive card-based list (or table on desktop) showing for each beneficiary:
+   - Name and codeword (Badge)
+   - Location
+   - Verified status (Badge: green for verified, yellow for unverified)
+   - Funds progress (currentFunds / targetFunds with Progress component)
+   - Needs as Badge tags
+   - Edit button → links to `/social-worker/beneficiaries/[id]`
+   - Remove button → calls removeBeneficiary(id) with confirmation
+5. Filter controls at top:
+   - Search by name or codeword
+   - Filter by location (dropdown or select from 5 cities + 'All')
+   - Filter by verified status (All / Verified / Unverified)
+   - Filter by needs (multi-select or checkboxes)
+6. 'Add New' button at top linking to `/social-worker/beneficiaries/new`.
+7. Empty state message when no beneficiaries found.
+8. Use useTranslations('socialWorker') for all text.
+9. Import Link from `@/i18n/routing`.
+10. Call generateMockData() if beneficiaries empty.
+
+**Success Criteria:**
+
+- Page shows only the logged-in social worker's beneficiaries
+- Search filter works for name and codeword
+- Location filter works
+- Verified status filter works
+- Each beneficiary shows codeword, funds progress, needs badges
+- Edit links navigate to correct beneficiary ID page
+- Remove button soft-deletes with confirmation
+- Empty state shown when no results
+- All text uses i18n translations
+
+### 5. beneficiary-form-page
+
+Create src/app/[locale]/social-worker/beneficiaries/[id]/page.tsx — an add/edit form for beneficiaries.
+
+1. Wrap in `<AuthGuard allowedRoles={['socialWorker']}`.
+2. Include Navbar.
+3. If `id` param is 'new', show add form. Otherwise, load existing beneficiary by id from store and pre-populate form.
+4. Form fields:
+   - Name (Input, required)
+   - Story (textarea, required)
+   - Needs (multi-select checkboxes from: Lebensmittel, Unterkunft, Medizinische Versorgung, Kleidung, Hygieneartikel — at least one required)
+   - Location (select from: Hamburg, Berlin, München, Köln, Frankfurt — required)
+   - Target Amount (number Input, required, min 1)
+5. Client-side validation: show error messages for required fields using i18n keys.
+6. On submit for 'new': call addBeneficiary() with socialWorkerId=currentUser.id, verified=false. Show the auto-generated codeword after save. Navigate back to list.
+7. On submit for edit: call updateBeneficiary(id, data). Navigate back to list.
+8. Cancel button navigates back to `/social-worker/beneficiaries`.
+9. Use useTranslations('socialWorker') for all text.
+10. Import Link, useRouter from `@/i18n/routing`.
+11. Use Card, Input, Button components from shadcn/ui.
+
+**Success Criteria:**
+
+- 'new' route shows empty form for adding beneficiary
+- Existing beneficiary id loads pre-populated form
+- All 5 form fields present with proper labels
+- Client-side validation shows errors for empty required fields
+- Needs multi-select allows choosing multiple options
+- Add submits via addBeneficiary with correct socialWorkerId
+- Edit submits via updateBeneficiary
+- Auto-generated codeword displayed after adding
+- Cancel navigates back to beneficiary list
+- All text uses i18n translations
+
+### 6. tests
+
+Add at least 10 new tests covering the social worker feature. Create test files:
+
+1. `src/lib/__tests__/mock-data-social-worker.test.ts` — Test the new store actions:
+   - getMyBeneficiaries returns only beneficiaries for given socialWorkerId
+   - getMyBeneficiaries excludes soft-deleted beneficiaries
+   - addBeneficiary creates beneficiary with auto-generated codeword and correct defaults
+   - updateBeneficiary updates specified fields without affecting others
+   - removeBeneficiary sets deletedAt (soft delete)
+   - getBeneficiaryByCodeword excludes soft-deleted records
+
+2. `src/app/[locale]/social-worker/__tests__/dashboard.test.tsx` — Test the dashboard page:
+   - Renders stat cards with correct counts
+   - Shows quick action buttons with correct links
+   - Protected by AuthGuard
+
+3. `src/app/[locale]/social-worker/beneficiaries/__tests__/beneficiaries-list.test.tsx` — Test the list page:
+   - Renders beneficiary list
+   - Filters work correctly
+
+Follow existing test patterns: use vitest + React Testing Library, mock Zustand store with vi.mocked or useMockDataStore.setState, mock next-intl with useTranslations returning key as value. Ensure all 155 existing tests plus the new 10+ tests pass. Run `npm run test:run` to verify.
+
+**Success Criteria:**
+
+- At least 10 new test cases added
+- Store action tests cover getMyBeneficiaries, addBeneficiary, updateBeneficiary, removeBeneficiary
+- Dashboard page test verifies stat cards render
+- Beneficiary list test verifies rendering
+- All new tests pass
+- All 155 existing tests still pass
+- npm run test:run shows 165+ passing tests
