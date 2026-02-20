@@ -66,7 +66,7 @@ interface MockDataStore {
       | 'photoUrl'
       | 'deletedAt'
     >
-  ) => void
+  ) => Beneficiary
   updateBeneficiary: (
     id: string,
     data: Partial<
@@ -222,6 +222,7 @@ export const useMockDataStore = create<MockDataStore>()(
         set((state) => ({
           beneficiaries: [...state.beneficiaries, newBeneficiary],
         }))
+        return newBeneficiary
       },
 
       updateBeneficiary: (
