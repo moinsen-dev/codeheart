@@ -94,6 +94,11 @@
         "admin": "Admin"
       }
     },
+    "devMode": {
+      "banner": "Development mode active",
+      "quickLogin": "Quick Login",
+      "loginAs": "Login as"
+    },
     "register": {
       "title": "Register",
       "subtitle": "Create a new account",
@@ -111,6 +116,9 @@
         "socialWorker": "Verify and support beneficiaries in the field",
         "admin": "Manage platform operations and users"
       },
+      "roleDonor": "As a donor, you support people in need through direct donations via our secure codeword system",
+      "roleSocialWorker": "As a social worker, you verify and support beneficiaries in the field and ensure their authenticity",
+      "roleAdmin": "As an administrator, you manage the entire platform, including users, settings, and system operations",
       "submit": "Register",
       "hasAccount": "Already have an account?",
       "loginLink": "Sign in now",
@@ -191,5 +199,20 @@
     "location": "Location",
     "noResults": "No beneficiaries found",
     "noResultsDescription": "Try adjusting your search criteria."
+  },
+  "socialWorker": {
+    "dashboard": "Dashboard",
+    "title": "Social Worker Dashboard",
+    "manageBeneficiaries": "Manage Beneficiaries"
+  },
+  "admin": {
+    "dashboard": "Admin Panel",
+    "title": "Administrator Dashboard",
+    "manageUsers": "Manage Users",
+    "settings": "Settings"
+  },
+  "authGuard": {
+    "loading": "Loading...",
+    "unauthorized": "Unauthorized. You do not have permission to access this page."
   }
 }
