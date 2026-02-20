@@ -103,7 +103,7 @@ describe('Register Page - Form Validation Rules', () => {
   it('validates password confirmation matching', () => {
     const password = 'password123'
     const confirmPassword = 'password123'
-    const mismatchPassword = 'differentpassword'
+    const mismatchPassword = 'differentpassword' as string
 
     expect(password === confirmPassword).toBe(true)
     expect(password === mismatchPassword).toBe(false)

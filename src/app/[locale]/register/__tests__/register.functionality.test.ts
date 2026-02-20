@@ -78,7 +78,7 @@ describe('Register Page Functionality - Success Criteria Verification', () => {
     it('validates password and confirm password must match', () => {
       const password = 'password123'
       const confirmPassword = 'password123'
-      const mismatchPassword = 'different'
+      const mismatchPassword = 'different' as string
 
       expect(password === confirmPassword).toBe(true)
       expect(password === mismatchPassword).toBe(false)
