@@ -64,6 +64,16 @@
     "cities": "Bald in 5 deutschen Städten",
     "partners": "10+ Partnerorganisationen"
   },
+  "socialWorkerSection": {
+    "title": "Für Sozialmitarbeiter",
+    "subtitle": "Unterstützen Sie Menschen in Not direkt über unser Portal",
+    "description": "Als Sozialmitarbeiter können Sie Hilfsbedürftige registrieren, verifizieren und deren Fortschritt verfolgen. Verwalten Sie Codewörter, dokumentieren Sie Bedürfnisse und sorgen Sie dafür, dass Spenden dort ankommen, wo sie gebraucht werden.",
+    "feature1": "Empfänger registrieren und verifizieren",
+    "feature2": "Bedürfnisse und Fortschritt dokumentieren",
+    "feature3": "Spendenverteilung nachverfolgen",
+    "cta": "Zum Sozialarbeiter-Portal",
+    "ctaRegister": "Als Sozialarbeiter registrieren"
+  },
   "theme": {
     "toggle": "Thema wechseln",
     "light": "Hell",

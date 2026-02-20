@@ -64,6 +64,16 @@
     "cities": "Coming soon to 5 German cities",
     "partners": "10+ partner organizations"
   },
+  "socialWorkerSection": {
+    "title": "For Social Workers",
+    "subtitle": "Support people in need directly through our portal",
+    "description": "As a social worker, you can register and verify beneficiaries, track their progress, manage codewords, document needs, and ensure donations reach those who need them most.",
+    "feature1": "Register and verify beneficiaries",
+    "feature2": "Document needs and track progress",
+    "feature3": "Monitor donation distribution",
+    "cta": "Go to Social Worker Portal",
+    "ctaRegister": "Register as Social Worker"
+  },
   "theme": {
     "toggle": "Toggle theme",
     "light": "Light",
