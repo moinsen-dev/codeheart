@@ -2,7 +2,6 @@
 
 import { useEffect } from 'react'
 import { useTranslations } from 'next-intl'
-import { useRouter } from 'next/navigation'
 import {
   Heart,
   Search,
@@ -21,20 +20,14 @@ import {
 } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Navbar } from '@/components/navbar'
+import { AuthGuard } from '@/components/auth-guard'
 import { Link } from '@/i18n/routing'
 import { useMockDataStore } from '@/lib/stores/mock-data'
 
-export default function DashboardPage() {
+function DashboardContent() {
   const t = useTranslations('dashboard')
   const { currentUser, donations, beneficiaries, generateMockData } =
     useMockDataStore()
-  const router = useRouter()
-
-  useEffect(() => {
-    if (!currentUser) {
-      router.push('/login')
-    }
-  }, [currentUser, router])
 
   useEffect(() => {
     if (beneficiaries.length === 0) {
@@ -42,9 +35,8 @@ export default function DashboardPage() {
     }
   }, [beneficiaries.length, generateMockData])
 
-  if (!currentUser) {
-    return null
-  }
+  // AuthGuard ensures currentUser is not null, but TypeScript doesn't know that
+  if (!currentUser) return null
 
   const userDonations = donations.filter((d) => d.donorId === currentUser.id)
   const totalDonated = userDonations.reduce((sum, d) => sum + d.amount, 0)
@@ -223,5 +215,13 @@ export default function DashboardPage() {
         </div>
       </footer>
     </div>
+  )
+}
+
+export default function DashboardPage() {
+  return (
+    <AuthGuard allowedRoles={['donor']}>
+      <DashboardContent />
+    </AuthGuard>
   )
 }
