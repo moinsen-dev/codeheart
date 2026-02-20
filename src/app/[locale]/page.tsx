@@ -2,9 +2,8 @@
 
 import { useTranslations } from 'next-intl'
 import { Button } from '@/components/ui/button'
-import { ThemeToggle } from '@/components/theme-toggle'
-import { LanguageToggle } from '@/components/language-toggle'
 import { FeatureCard } from '@/components/feature-card'
+import { Navbar } from '@/components/navbar'
 import {
   Heart,
   Shield,
@@ -12,6 +11,9 @@ import {
   CheckCircle,
   Users,
   TrendingUp,
+  ClipboardCheck,
+  FileText,
+  BarChart3,
 } from 'lucide-react'
 import { useEffect } from 'react'
 import { useMockDataStore } from '@/lib/stores/mock-data'
@@ -19,7 +21,7 @@ import { Link } from '@/i18n/routing'
 
 export default function HomePage() {
   const t = useTranslations()
-  const { generateMockData, beneficiaries } = useMockDataStore()
+  const { generateMockData, beneficiaries, currentUser } = useMockDataStore()
 
   useEffect(() => {
     if (beneficiaries.length === 0) {
@@ -29,43 +31,8 @@ export default function HomePage() {
 
   return (
     <div className="flex min-h-screen flex-col">
-      {/* Navigation */}
-      <nav className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex h-16 items-center justify-between">
-          <div className="flex items-center gap-6">
-            <Link href="/" className="flex items-center gap-2">
-              <Heart className="h-6 w-6 text-primary" />
-              <span className="text-xl font-bold">CodeHeart</span>
-            </Link>
-
-            <div className="hidden items-center gap-6 md:flex">
-              <Link
-                href="#how-it-works"
-                className="text-sm font-medium hover:text-primary"
-              >
-                {t('nav.howItWorks')}
-              </Link>
-              <Link
-                href="#about"
-                className="text-sm font-medium hover:text-primary"
-              >
-                {t('nav.about')}
-              </Link>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-2">
-            <LanguageToggle />
-            <ThemeToggle />
-            <Link href="/login">
-              <Button variant="ghost">{t('nav.login')}</Button>
-            </Link>
-            <Link href="/register">
-              <Button>{t('nav.register')}</Button>
-            </Link>
-          </div>
-        </div>
-      </nav>
+      {/* Shared Navigation */}
+      <Navbar />
 
       {/* Hero Section */}
       <section className="relative overflow-hidden py-24 lg:py-32">
@@ -78,10 +45,14 @@ export default function HomePage() {
               {t('hero.subtitle')}
             </p>
             <div className="mt-10 flex items-center justify-center gap-4">
-              <Button size="lg">{t('hero.cta.donate')}</Button>
-              <Button size="lg" variant="outline">
-                {t('hero.cta.learnMore')}
-              </Button>
+              <Link href="/beneficiaries">
+                <Button size="lg">{t('hero.cta.donate')}</Button>
+              </Link>
+              <Link href="#how-it-works">
+                <Button size="lg" variant="outline">
+                  {t('hero.cta.learnMore')}
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
@@ -141,8 +112,64 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Waitlist Section */}
+      {/* Social Worker Section */}
       <section className="py-24">
+        <div className="container">
+          <div className="mx-auto max-w-4xl">
+            <div className="rounded-2xl border bg-card p-8 shadow-sm md:p-12">
+              <div className="flex flex-col items-center gap-8 md:flex-row">
+                <div className="flex-1 space-y-4">
+                  <div className="inline-flex items-center gap-2 rounded-full bg-green-100 px-3 py-1 text-sm font-medium text-green-800 dark:bg-green-900 dark:text-green-300">
+                    <Shield className="h-4 w-4" />
+                    {t('socialWorkerSection.title')}
+                  </div>
+                  <h2 className="text-2xl font-bold md:text-3xl">
+                    {t('socialWorkerSection.subtitle')}
+                  </h2>
+                  <p className="text-muted-foreground">
+                    {t('socialWorkerSection.description')}
+                  </p>
+                  <ul className="space-y-3 text-sm">
+                    <li className="flex items-center gap-3">
+                      <ClipboardCheck className="h-5 w-5 text-green-600 dark:text-green-400" />
+                      {t('socialWorkerSection.feature1')}
+                    </li>
+                    <li className="flex items-center gap-3">
+                      <FileText className="h-5 w-5 text-green-600 dark:text-green-400" />
+                      {t('socialWorkerSection.feature2')}
+                    </li>
+                    <li className="flex items-center gap-3">
+                      <BarChart3 className="h-5 w-5 text-green-600 dark:text-green-400" />
+                      {t('socialWorkerSection.feature3')}
+                    </li>
+                  </ul>
+                  <div className="flex flex-wrap gap-3 pt-2">
+                    {currentUser?.role === 'socialWorker' ? (
+                      <Link href="/social-worker">
+                        <Button>{t('socialWorkerSection.cta')}</Button>
+                      </Link>
+                    ) : (
+                      <>
+                        <Link href="/login">
+                          <Button>{t('socialWorkerSection.cta')}</Button>
+                        </Link>
+                        <Link href="/register">
+                          <Button variant="outline">
+                            {t('socialWorkerSection.ctaRegister')}
+                          </Button>
+                        </Link>
+                      </>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Waitlist Section */}
+      <section className="bg-muted/50 py-24">
         <div className="container">
           <div className="mx-auto max-w-2xl text-center">
             <h2 className="mb-4 text-3xl font-bold">{t('waitlist.title')}</h2>

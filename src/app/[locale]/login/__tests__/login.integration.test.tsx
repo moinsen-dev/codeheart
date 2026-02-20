@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest'
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 import { useMockDataStore } from '@/lib/stores/mock-data'
 import { devLogin, isDevAuthEnabled } from '@/lib/auth/dev-auth'
 

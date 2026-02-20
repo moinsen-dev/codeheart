@@ -15,6 +15,7 @@ export interface Beneficiary {
   currentFunds: number
   targetFunds: number
   createdAt: Date
+  deletedAt?: Date
 }
 
 export interface Donation {
@@ -52,6 +53,30 @@ interface MockDataStore {
     message?: string
   ) => void
   getBeneficiaryByCodeword: (codeword: string) => Beneficiary | undefined
+
+  // Social Worker Actions
+  getMyBeneficiaries: (socialWorkerId: string) => Beneficiary[]
+  addBeneficiary: (
+    data: Omit<
+      Beneficiary,
+      | 'id'
+      | 'codeword'
+      | 'createdAt'
+      | 'currentFunds'
+      | 'photoUrl'
+      | 'deletedAt'
+    >
+  ) => Beneficiary
+  updateBeneficiary: (
+    id: string,
+    data: Partial<
+      Pick<
+        Beneficiary,
+        'name' | 'story' | 'needs' | 'location' | 'targetFunds' | 'verified'
+      >
+    >
+  ) => void
+  removeBeneficiary: (id: string) => void
 }
 
 // Generate initial mock beneficiaries
@@ -163,8 +188,65 @@ export const useMockDataStore = create<MockDataStore>()(
 
       getBeneficiaryByCodeword: (codeword: string) => {
         return get().beneficiaries.find(
-          (b) => b.codeword.toLowerCase() === codeword.toLowerCase()
+          (b) =>
+            b.codeword.toLowerCase() === codeword.toLowerCase() && !b.deletedAt
         )
+      },
+
+      // Social Worker Actions
+      getMyBeneficiaries: (socialWorkerId: string) => {
+        return get().beneficiaries.filter(
+          (b) => b.socialWorkerId === socialWorkerId && !b.deletedAt
+        )
+      },
+
+      addBeneficiary: (
+        data: Omit<
+          Beneficiary,
+          | 'id'
+          | 'codeword'
+          | 'createdAt'
+          | 'currentFunds'
+          | 'photoUrl'
+          | 'deletedAt'
+        >
+      ) => {
+        const newBeneficiary: Beneficiary = {
+          ...data,
+          id: faker.string.uuid(),
+          codeword: `${faker.person.firstName()}${faker.number.int({ min: 10, max: 99 })}`,
+          currentFunds: 0,
+          photoUrl: `https://api.dicebear.com/7.x/avataaars/svg?seed=${faker.string.uuid()}`,
+          createdAt: new Date(),
+        }
+        set((state) => ({
+          beneficiaries: [...state.beneficiaries, newBeneficiary],
+        }))
+        return newBeneficiary
+      },
+
+      updateBeneficiary: (
+        id: string,
+        data: Partial<
+          Pick<
+            Beneficiary,
+            'name' | 'story' | 'needs' | 'location' | 'targetFunds' | 'verified'
+          >
+        >
+      ) => {
+        set((state) => ({
+          beneficiaries: state.beneficiaries.map((b) =>
+            b.id === id ? { ...b, ...data } : b
+          ),
+        }))
+      },
+
+      removeBeneficiary: (id: string) => {
+        set((state) => ({
+          beneficiaries: state.beneficiaries.map((b) =>
+            b.id === id ? { ...b, deletedAt: new Date() } : b
+          ),
+        }))
       },
     }),
     {
